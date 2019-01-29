@@ -14,7 +14,7 @@ type Worker interface {
 // tasks that are submitted.
 type Pool struct {
 	work chan Worker
-	wg   sync.WaitGroup
+	wg   sync.WaitGroup 	//WaitGroup需要等待goroutine的数量
 }
 
 // New creates a new work pool.
