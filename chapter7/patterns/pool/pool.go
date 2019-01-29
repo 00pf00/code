@@ -25,11 +25,16 @@ type Pool struct {
 
 // ErrPoolClosed is returned when an Acquire returns on a
 // closed pool.
+//ErrPoolClosed表示请求(Acquire)了一个
+//已经关闭的池
 var ErrPoolClosed = errors.New("Pool has been closed.")
 
 // New creates a pool that manages resources. A pool requires a
 // function that can allocate a new resource and the size of
 // the pool.
+//New创建一个用来管理资源的池。
+//这个池需要一个可以分配新资源的函数
+//并规定池的大小
 func New(fn func() (io.Closer, error), size uint) (*Pool, error) {
 	if size <= 0 {
 		return nil, errors.New("Size value too small.")
@@ -60,6 +65,7 @@ func (p *Pool) Acquire() (io.Closer, error) {
 }
 
 // Release places a new resource onto the pool.
+//Release将一个使用后的资源放回池内
 func (p *Pool) Release(r io.Closer) {
 	// Secure this operation with the Close operation.
 	p.m.Lock()
