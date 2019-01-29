@@ -53,21 +53,27 @@ func createConnection() (io.Closer, error) {
 }
 
 // main is the entry point for all Go programs.
+//main是所有go程序的入口
 func main() {
 	var wg sync.WaitGroup
 	wg.Add(maxGoroutines)
 
 	// Create the pool to manage our connections.
+	//创建用来管理连接的池
 	p, err := pool.New(createConnection, pooledResources)
 	if err != nil {
 		log.Println(err)
 	}
 
 	// Perform queries using connections from the pool.
+	//使用池里连接来完成查询
 	for query := 0; query < maxGoroutines; query++ {
 		// Each goroutine needs its own copy of the query
 		// value else they will all be sharing the same query
 		// variable.
+		//每个gorotuine需要自己复制一份要
+		//查询值的副本，不然所有的查询会共享
+		//同一个查询变量
 		go func(q int) {
 			performQueries(q, p)
 			wg.Done()
@@ -75,9 +81,11 @@ func main() {
 	}
 
 	// Wait for the goroutines to finish.
+	//等待goroutine结束
 	wg.Wait()
 
 	// Close the pool.
+	//关闭池
 	log.Println("Shutdown Program.")
 	p.Close()
 }
