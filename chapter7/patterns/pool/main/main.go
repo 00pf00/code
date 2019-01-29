@@ -15,10 +15,13 @@ import (
 
 const (
 	maxGoroutines   = 25 // the number of routines to use.
+											//要使用的goruntine的数量
 	pooledResources = 2  // number of resources in the pool
+	 										//池中资源的数量
 )
 
 // dbConnection simulates a resource to share.
+//dbConnection 模拟要共享的资源
 type dbConnection struct {
 	ID int32
 }
@@ -26,16 +29,22 @@ type dbConnection struct {
 // Close implements the io.Closer interface so dbConnection
 // can be managed by the pool. Close performs any resource
 // release management.
+//closes实现了io.Closer接口，以便dbConnection
+//可以被池管理。Close用来完成任意资源的
+//释放管理
 func (dbConn *dbConnection) Close() error {
 	log.Println("Close: Connection", dbConn.ID)
 	return nil
 }
 
 // idCounter provides support for giving each connection a unique id.
+//idCounter用来给每个连接分配一个独一无二的id
 var idCounter int32
 
 // createConnection is a factory method that will be called by
 // the pool when a new connection is needed.
+//createConnection是一个工厂函数，
+//当需要一个新的连接时，资源池会调用这个函数
 func createConnection() (io.Closer, error) {
 	id := atomic.AddInt32(&idCounter, 1)
 	log.Println("Create: New Connection", id)
