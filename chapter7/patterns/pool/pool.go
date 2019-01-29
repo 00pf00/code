@@ -1,5 +1,6 @@
 // Example provided with help from Fatih Arslan and Gabriel Aszalos.
 // Package pool manages a user defined set of resources.
+//包pool管理用户定义的一组资源
 package pool
 
 import (
@@ -12,6 +13,9 @@ import (
 // Pool manages a set of resources that can be shared safely by
 // multiple goroutines. The resource being managed must implement
 // the io.Closer interface.
+//pool管理一组可以安全地在多个goroutine间
+//共享的资源，被管理的资源必须
+//实现io,Closer接口
 type Pool struct {
 	m         sync.Mutex
 	resources chan io.Closer
