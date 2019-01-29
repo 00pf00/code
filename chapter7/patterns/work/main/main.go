@@ -50,6 +50,8 @@ func main() {
 			go func() {
 				// Submit the task to be worked on. When RunTask
 				// returns we know it is being handled.
+				//将任务提交执行。当Run返回时
+				//我们就知道任务已经处理完成
 				p.Run(&np)
 				wg.Done()
 			}()
