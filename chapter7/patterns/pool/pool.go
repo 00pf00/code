@@ -83,6 +83,7 @@ func (p *Pool) Release(r io.Closer) {
 		log.Println("Release:", "In Queue")
 
 	// If the queue is already at cap we close the resource.
+	//如果队列已满。则关闭这个资源
 	default:
 		log.Println("Release:", "Closing")
 		r.Close()
